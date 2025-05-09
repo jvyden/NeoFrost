@@ -8,9 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Reference Include="NeosModLoader">
+            <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Libraries\NeosModLoader.dll</HintPath>
+        </Reference>
       <Reference Include="0Harmony">
         <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\nml_libs\0Harmony.dll</HintPath>
       </Reference>
+        
       <Reference Include="CloudX.Shared">
         <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\CloudX.Shared.dll</HintPath>
       </Reference>
@@ -20,12 +24,16 @@
         <Reference Include="BaseX">
             <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\BaseX.dll</HintPath>
         </Reference>
-      <Reference Include="NeosModLoader">
-        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Libraries\NeosModLoader.dll</HintPath>
-      </Reference>
+        
       <Reference Include="System.Net.Http">
         <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Net.Http.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BrotliSharpLib" Version="0.3.2" />
+      <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+      <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.1" />
     </ItemGroup>
 
 </Project>

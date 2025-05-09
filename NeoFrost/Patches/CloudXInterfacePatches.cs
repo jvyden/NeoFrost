@@ -17,7 +17,6 @@ public class CloudXInterfacePatches
     [HarmonyPrefix]
     public static bool ApiPrefix(ref string __result)
     {
-        Console.WriteLine("api");
         __result = "https://api.resonite.com";
         return false;
     }
@@ -72,7 +71,7 @@ public class CloudXInterfacePatches
         resource = resource.Replace("G-Neos", "G-Resonite");
         if (resource == "stats/onlineUserStats")
             resource = "stats/onlineStats";
-        UniLog.Warning($"{method} {CloudXInterface.NEOS_API}/{resource}", true);
+        UniLog.Warning($"{method} {CloudXInterface.NEOS_API}/{resource}", false);
         return true;
     }
 
@@ -104,34 +103,14 @@ public class CloudXInterfacePatches
     {
         string signature = CloudXInterface.NeosDBSignature(neosdb);
         string query = CloudXInterface.NeosDBQuery(neosdb);
-        
-        if (query != null)
-            signature = signature + "/" + query;
-        
-        if (CloudXInterface.IsLegacyNeosDB(neosdb))
+
+        if (string.IsNullOrEmpty(query))
         {
-            __result = new Uri(CloudXInterface.NEOS_ASSETS_BLOB + signature);
+            __result = new Uri("https://assets.resonite.com/" + signature);
             return false;
         }
 
-        string url;
-        switch (endpoint)
-        {
-            default:
-            case NeosDB_Endpoint.Default:
-            case NeosDB_Endpoint.Blob:
-                url = CloudXInterface.NEOS_ASSETS_BLOB;
-                goto finish;
-            case NeosDB_Endpoint.CDN:
-                url = CloudXInterface.NEOS_ASSETS_CDN;
-                goto finish;
-            case NeosDB_Endpoint.VideoCDN:
-                url = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
-                goto finish;
-        }
-        
-        finish:
-        __result = new Uri(url + signature);
+        __result = new Uri("https://variants.resonite.com/" + signature);
         return false;
     }
 }
