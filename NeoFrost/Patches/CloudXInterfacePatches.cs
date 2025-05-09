@@ -69,6 +69,7 @@ public class CloudXInterfacePatches
     {
         resource = resource.Replace("api/", "");
         resource = resource.Replace("G-Neos", "G-Resonite");
+        resource = resource.Replace("Neos%20Essentials", "Resonite%20Essentials");
         if (resource == "stats/onlineUserStats")
             resource = "stats/onlineStats";
         UniLog.Warning($"{method} {CloudXInterface.NEOS_API}/{resource}", false);
