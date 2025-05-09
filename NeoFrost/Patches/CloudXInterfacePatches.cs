@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Net.Http;
 using BaseX;
 using CloudX.Shared;
+using FrooxEngine;
 using HarmonyLib;
 
 namespace NeoFrost.Patches;
 
 [HarmonyPatch(typeof(CloudXInterface))]
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public class CloudXInterfacePatches
 {
     [HarmonyPatch(typeof(CloudXInterface), "get_" + nameof(CloudXInterface.NEOS_API))]
@@ -70,5 +74,64 @@ public class CloudXInterfacePatches
             resource = "stats/onlineStats";
         UniLog.Warning($"{method} {CloudXInterface.NEOS_API}/{resource}", true);
         return true;
+    }
+
+    [HarmonyPatch(typeof(CloudXInterface), "IsValidNeosDBUri")]
+    [HarmonyPrefix]
+    public static bool IsValidNeosDBUriPrefix(Uri uri, ref bool __result)
+    {
+        if (uri.Scheme != "resdb") return true;
+
+        __result = uri.Segments.Length >= 2;
+        return false;
+    }
+
+    [HarmonyPatch(typeof(CloudXInterface), "FilterNeosURL")]
+    [HarmonyPrefix]
+    public static bool FilterNeosURL(Uri assetURL, ref Uri __result)
+    {
+        if (assetURL.Scheme != "resdb") return true;
+
+        if(assetURL.Segments.Length >= 2 && assetURL.Segments[1].Contains("."))
+            assetURL = new Uri("resdb:///" + Path.GetFileNameWithoutExtension(assetURL.Segments[1]) + assetURL.Query);
+        
+        return false;
+    }
+
+    [HarmonyPatch(typeof(CloudXInterface), "NeosDBToHttp")]
+    [HarmonyPrefix]
+    public static bool NeosDBToHttp(Uri neosdb, NeosDB_Endpoint endpoint, ref Uri __result)
+    {
+        string signature = CloudXInterface.NeosDBSignature(neosdb);
+        string query = CloudXInterface.NeosDBQuery(neosdb);
+        
+        if (query != null)
+            signature = signature + "/" + query;
+        
+        if (CloudXInterface.IsLegacyNeosDB(neosdb))
+        {
+            __result = new Uri(CloudXInterface.NEOS_ASSETS_BLOB + signature);
+            return false;
+        }
+
+        string url;
+        switch (endpoint)
+        {
+            default:
+            case NeosDB_Endpoint.Default:
+            case NeosDB_Endpoint.Blob:
+                url = CloudXInterface.NEOS_ASSETS_BLOB;
+                goto finish;
+            case NeosDB_Endpoint.CDN:
+                url = CloudXInterface.NEOS_ASSETS_CDN;
+                goto finish;
+            case NeosDB_Endpoint.VideoCDN:
+                url = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
+                goto finish;
+        }
+        
+        finish:
+        __result = new Uri(url + signature);
+        return false;
     }
 }
