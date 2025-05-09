@@ -1,9 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFramework>net462</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\nml_libs\0Harmony.dll</HintPath>
+      </Reference>
+      <Reference Include="CloudX.Shared">
+        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\CloudX.Shared.dll</HintPath>
+      </Reference>
+      <Reference Include="FrooxEngine">
+        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\FrooxEngine.dll</HintPath>
+      </Reference>
+        <Reference Include="BaseX">
+            <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\BaseX.dll</HintPath>
+        </Reference>
+      <Reference Include="NeosModLoader">
+        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Libraries\NeosModLoader.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Net.Http">
+        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Net.Http.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 
 </Project>
