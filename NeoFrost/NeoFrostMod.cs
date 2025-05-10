@@ -3,6 +3,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using BaseX;
+using CloudX.Shared;
+using FrooxEngine;
 using HarmonyLib;
 using Microsoft.Win32.SafeHandles;
 using NeosModLoader;
@@ -90,5 +92,7 @@ public class NeoFrostMod : NeosMod
         
         Harmony harmony = new(Name);
         harmony.PatchAll();
+
+        CloudXInterface.UseNewtonsoftJson = false;
     }
 }

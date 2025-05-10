@@ -8,6 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+          <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+        </Reference>
         <Reference Include="NeosModLoader">
             <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Libraries\NeosModLoader.dll</HintPath>
         </Reference>
@@ -24,9 +27,16 @@
         <Reference Include="BaseX">
             <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\BaseX.dll</HintPath>
         </Reference>
+        <Reference Include="System.Memory">
+          <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Memory.dll</HintPath>
+        </Reference>
         
       <Reference Include="System.Net.Http">
         <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Net.Http.dll</HintPath>
+      </Reference>
+        
+      <Reference Include="System.Text.Json">
+        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Text.Json.dll</HintPath>
       </Reference>
     </ItemGroup>
 
