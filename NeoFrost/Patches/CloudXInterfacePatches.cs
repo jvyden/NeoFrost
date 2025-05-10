@@ -10,6 +10,7 @@ using BaseX;
 using CloudX.Shared;
 using HarmonyLib;
 using NeoFrost.Types;
+using NeoFrost.Types.Conversion;
 using NeoFrost.Types.LoginMethods;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -164,6 +165,9 @@ public class CloudXInterfacePatches
     [HarmonyPrefix]
     public static bool AddBodyPrefix(HttpRequestMessage message, ref object? entity)
     {
+        if (entity != null)
+            entity = Mappings.MapObjectToResonite(entity);
+        
         try
         {
             Func<MemoryStream> memoryStreamAllocator = CloudXInterface.MemoryStreamAllocator;

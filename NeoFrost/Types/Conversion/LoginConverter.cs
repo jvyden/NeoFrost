@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using NeoFrost.Types.LoginMethods;
 
-namespace NeoFrost.Types;
+namespace NeoFrost.Types.Conversion;
 
 public class LoginConverter : JsonConverter<LoginAuthentication>
 {

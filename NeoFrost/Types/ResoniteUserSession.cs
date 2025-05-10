@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using CloudX.Shared;
+using NeoFrost.Types.Conversion;
 using Newtonsoft.Json;
 
 namespace NeoFrost.Types;
@@ -9,7 +10,7 @@ namespace NeoFrost.Types;
 
 [JsonObject(MemberSerialization.OptIn)]
 [Serializable]
-public class ResoniteUserSession
+public class ResoniteUserSession : IResonite
 {
     [JsonProperty("userId")]
     [JsonPropertyName("userId")]
@@ -33,4 +34,31 @@ public class ResoniteUserSession
     [JsonProperty("rememberMe")]
     [JsonPropertyName("rememberMe")]
     public bool RememberMe { get; set; }
+
+    public object ToNeos()
+    {
+        return new UserSession
+        {
+            UserId = this.UserId,
+            RememberMe = this.RememberMe,
+            // SecretMachineId = secretMachineId,
+            SessionToken = this.SessionToken,
+            SessionCreated = this.SessionCreated,
+            SessionExpire = this.SessionExpire
+        };
+    }
+
+    public void FromNeos(object original)
+    {
+        if (original is not UserSession obj)
+            throw new InvalidCastException();
+        
+        this.UserId = obj.UserId;
+        this.RememberMe = obj.RememberMe;
+        this.SessionToken = obj.SessionToken;
+        this.SessionCreated = obj.SessionCreated;
+        this.SessionExpire = obj.SessionExpire;
+    }
+
+    public Type NeosType => typeof(UserSession);
 }

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using NeoFrost.Types.Conversion;
 
 namespace NeoFrost;
 
@@ -15,6 +19,28 @@ public static class Mappings
         { "G-Neos", "G-Resonite" },
         { "Neos%20Essentials", "Resonite%20Essentials" },
     };
+
+    private static readonly List<Type> MappableTypes =
+    [
+        typeof(IResonite)
+    ];
+
+    private static readonly Dictionary<Type, Type> NeosToResonite = [];
+
+    [Pure]
+    private static IResonite CreateResoniteObject(Type type)
+    {
+        return (IResonite)Activator.CreateInstance(type);
+    }
+    
+    static Mappings()
+    {
+        foreach (Type resoType in MappableTypes)
+        {
+            IResonite reso = CreateResoniteObject(resoType);
+            NeosToResonite[reso.NeosType] = resoType;
+        }
+    }
 
     public static void MapResource(ref string resource)
     {
@@ -33,5 +59,28 @@ public static class Mappings
         
         if (resource.StartsWith("users/") && resource.EndsWith("/friends"))
             resource = resource.Replace("/friends", "/contacts");
+    }
+
+    public static object MapObjectToNeos(object obj)
+    {
+        if (obj is IResonite reso)
+        {
+            Debug.Assert(MappableTypes.Contains(reso.GetType()));
+            return reso.ToNeos();
+        }
+        
+        return obj;
+    }
+
+    public static object MapObjectToResonite(object obj)
+    {
+        if (NeosToResonite.TryGetValue(obj.GetType(), out Type resoType))
+        {
+            IResonite reso = CreateResoniteObject(resoType);
+            reso.FromNeos(obj);
+            return reso;
+        }
+
+        return obj;
     }
 }

@@ -67,15 +67,8 @@ public static class CloudXInterfaceLoginPatch
         CloudResult<UserSessionResult> result = new(obj, resultStr.State, resultStr.Content);
 
         ResoniteUserSession resoSession = result.Entity.Entity;
-        UserSession session = new()
-        {
-            UserId = resoSession.UserId,
-            RememberMe = resoSession.RememberMe,
-            SecretMachineId = secretMachineId,
-            SessionToken = resoSession.SessionToken,
-            SessionCreated = resoSession.SessionCreated,
-            SessionExpire = resoSession.SessionExpire
-        };
+        UserSession session = (UserSession)resoSession.ToNeos();
+        session.SecretMachineId = secretMachineId;
 
         if (result.IsOK)
         {
