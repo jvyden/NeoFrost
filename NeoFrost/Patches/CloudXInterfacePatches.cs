@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection.Emit;
 using System.Text.Json;
 using BaseX;
 using CloudX.Shared;
@@ -77,6 +79,8 @@ public class CloudXInterfacePatches
         resource = resource.Replace("Neos%20Essentials", "Resonite%20Essentials");
         if (resource == "stats/onlineUserStats")
             resource = "stats/onlineStats";
+        if (resource.StartsWith("users/") && resource.EndsWith("/friends"))
+            resource = resource.Replace("/friends", "/contacts");
         UniLog.Warning($"{method} {CloudXInterface.NEOS_API}/{resource}", false);
         return true;
     }
@@ -118,6 +122,19 @@ public class CloudXInterfacePatches
 
         __result = new Uri("https://variants.resonite.com/" + signature);
         return false;
+    }
+
+    [HarmonyPatch(typeof(CloudXInterface), "set_CurrentSession")]
+    [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> Set_CurrentSession_Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        foreach (CodeInstruction? instr in instructions)
+        {
+            if (instr.opcode == OpCodes.Ldstr && instr.operand is string str && str == "neos")
+                yield return new CodeInstruction(OpCodes.Ldstr, "res");
+            else
+                yield return instr;
+        }
     }
     
     private static readonly MediaTypeHeaderValue JSON_MEDIA_TYPE = new("application/json")
@@ -201,7 +218,6 @@ public class CloudXInterfacePatches
         
         return false;
     }
-    
 
     // [HarmonyPatch(typeof(CloudXInterface), "AddBody")]
     // [HarmonyPostfix]
