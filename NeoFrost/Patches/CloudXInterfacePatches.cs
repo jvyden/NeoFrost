@@ -74,13 +74,7 @@ public class CloudXInterfacePatches
     [HarmonyPrefix]
     public static bool CreateRequestPrefix(ref string resource, HttpMethod method)
     {
-        resource = resource.Replace("api/", "");
-        resource = resource.Replace("G-Neos", "G-Resonite");
-        resource = resource.Replace("Neos%20Essentials", "Resonite%20Essentials");
-        if (resource == "stats/onlineUserStats")
-            resource = "stats/onlineStats";
-        if (resource.StartsWith("users/") && resource.EndsWith("/friends"))
-            resource = resource.Replace("/friends", "/contacts");
+        Mappings.MapResource(ref resource);
         UniLog.Warning($"{method} {CloudXInterface.NEOS_API}/{resource}", false);
         return true;
     }
