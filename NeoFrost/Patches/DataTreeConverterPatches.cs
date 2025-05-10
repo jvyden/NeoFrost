@@ -1,12 +1,19 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
+using System.Threading.Tasks;
 using BaseX;
 using Brotli;
+using CloudX.Shared;
+using FrooxEngine;
 using HarmonyLib;
+using NeoFrost.Types;
 using Newtonsoft.Json.Bson;
+using Stream = System.IO.Stream;
 
 namespace NeoFrost.Patches;
 
@@ -63,20 +70,14 @@ public static class DataTreeConverterPatches
     
     private static DataTreeDictionary FromBrotli(FileStream stream)
     {
-        UniLog.Log("MAKING BROTLI STREAM");
-        
         using MemoryStream ms = new();
         DecompressFromBrotli(stream, ms);
         ms.Seek(0, SeekOrigin.Begin);
         
-        UniLog.Log("MAKING BSON READER");
-        
         using BsonDataReader bsonDataReader = new(ms);
         bsonDataReader.CloseInput = false;
-
-        UniLog.Log("DECOMPRESSING BROTLI STREAM");
+        
         DataTreeDictionary dataTreeDictionary = (DataTreeDictionary)DataTreeConverter_Read.Invoke(null, [bsonDataReader]);
-        UniLog.Log("DECOMPRESSED BROTLI STREAM");
         return dataTreeDictionary;
     }
 }

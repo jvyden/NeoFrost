@@ -8,7 +8,7 @@ namespace NeoFrost.Types;
 
 #nullable disable
 
-// [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+[JsonObject(MemberSerialization.OptOut)]
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 [Serializable]
 public class ResoniteLoginCredentials

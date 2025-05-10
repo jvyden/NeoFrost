@@ -138,26 +138,26 @@ public class CloudXInterfacePatches
     [HarmonyPrefix]
     public static bool AddBodyPrefix(HttpRequestMessage message, ref object? entity)
     {
-        if (entity is LoginCredentials old)
-        {
-            ResoniteLoginCredentials resoniteLogin = new()
-            {
-                OwnerId = old.OwnerId,
-                Username = old.Username,
-                Email = old.Email,
-                RememberMe = old.RememberMe,
-                SecretMachineId = old.SecretMachineId,
-                MachineBound = true
-            };
-            
-            if (!string.IsNullOrEmpty(old.SessionToken))
-                resoniteLogin.Authentication = new SessionTokenLogin(old.SessionToken);
-            else if (!string.IsNullOrEmpty(old.Password))
-                resoniteLogin.Authentication = new PasswordLogin(old.Password);
-
-            resoniteLogin.Preprocess();
-            entity = resoniteLogin;
-        }
+        // if (entity is LoginCredentials old)
+        // {
+        //     ResoniteLoginCredentials resoniteLogin = new()
+        //     {
+        //         OwnerId = old.OwnerId,
+        //         Username = old.Username,
+        //         Email = old.Email,
+        //         RememberMe = old.RememberMe,
+        //         SecretMachineId = old.SecretMachineId,
+        //         MachineBound = true
+        //     };
+        //     
+        //     if (!string.IsNullOrEmpty(old.SessionToken))
+        //         resoniteLogin.Authentication = new SessionTokenLogin(old.SessionToken);
+        //     else if (!string.IsNullOrEmpty(old.Password))
+        //         resoniteLogin.Authentication = new PasswordLogin(old.Password);
+        //
+        //     resoniteLogin.Preprocess();
+        //     entity = resoniteLogin;
+        // }
         
         try
         {
@@ -203,10 +203,14 @@ public class CloudXInterfacePatches
     }
     
 
-    [HarmonyPatch(typeof(CloudXInterface), "AddBody")]
-    [HarmonyPostfix]
-    public static void AddBodyPostfix(HttpRequestMessage message)
-    {
-        UniLog.Log(message.Content.ReadAsStringAsync().Result);
-    }
+    // [HarmonyPatch(typeof(CloudXInterface), "AddBody")]
+    // [HarmonyPostfix]
+    // public static void AddBodyPostfix(HttpRequestMessage message)
+    // {
+    //     string? content = message.Content.ReadAsStringAsync().Result;
+    //     if (content != null)
+    //         UniLog.Log(content);
+    //     else
+    //         UniLog.Log("<no data sent>", true);
+    // }
 }

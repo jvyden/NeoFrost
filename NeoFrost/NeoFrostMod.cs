@@ -94,5 +94,7 @@ public class NeoFrostMod : NeosMod
         harmony.PatchAll();
 
         CloudXInterface.UseNewtonsoftJson = false;
+        CloudXInterface.DEBUG_REQUESTS = true;
+        CloudXInterface.DEBUG_UPLOAD = true;
     }
 }
