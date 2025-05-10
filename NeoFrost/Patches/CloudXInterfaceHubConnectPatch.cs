@@ -16,6 +16,9 @@ public static class CloudXInterfaceHubConnectPatch
         return nestedType!.GetMethod("<ConnectToHub>b__0", BindingFlags.NonPublic | BindingFlags.Instance)!;
     }
     
+    /// <summary>
+    /// Properly sets the authentication header to use the correct prefix when connecting to SignalR.
+    /// </summary>
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         foreach (CodeInstruction? instr in instructions)

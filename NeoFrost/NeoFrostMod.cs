@@ -74,8 +74,11 @@ public class NeoFrostMod : NeosMod
         AppDomain.CurrentDomain.UnhandledException += (_, ev) =>
         {
             UniLog.Error(ev.ExceptionObject.ToString());
+            Console.Out.Flush();
         };
         
+        // Adapted from https://github.com/JanoschABR/NativeConsole
+        #if DEBUG
         // Setup the native console
         SetupNativeConsole();
 
@@ -89,12 +92,15 @@ public class NeoFrostMod : NeosMod
         UniLog.OnError += msg => {
             Console.WriteLine($"[E] {msg}");
         };
+        #endif
         
         Harmony harmony = new(Name);
         harmony.PatchAll();
 
         CloudXInterface.UseNewtonsoftJson = false;
+        #if DEBUG
         CloudXInterface.DEBUG_REQUESTS = true;
         CloudXInterface.DEBUG_UPLOAD = true;
+        #endif
     }
 }

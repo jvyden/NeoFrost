@@ -85,6 +85,9 @@ public class CloudXInterfacePatches
         return true;
     }
 
+    /// <summary>
+    /// Enables support for resdb links
+    /// </summary>
     [HarmonyPatch(typeof(CloudXInterface), "IsValidNeosDBUri")]
     [HarmonyPrefix]
     public static bool IsValidNeosDBUriPrefix(Uri uri, ref bool __result)
@@ -95,6 +98,9 @@ public class CloudXInterfacePatches
         return false;
     }
 
+    /// <summary>
+    /// Enables support for resdb links
+    /// </summary>
     [HarmonyPatch(typeof(CloudXInterface), "FilterNeosURL")]
     [HarmonyPrefix]
     public static bool FilterNeosURL(Uri assetURL, ref Uri __result)
@@ -107,6 +113,9 @@ public class CloudXInterfacePatches
         return false;
     }
 
+    /// <summary>
+    /// Enables support for retrieving assets from the resonite asset database
+    /// </summary>
     [HarmonyPatch(typeof(CloudXInterface), "NeosDBToHttp")]
     [HarmonyPrefix]
     public static bool NeosDBToHttp(Uri neosdb, NeosDB_Endpoint endpoint, ref Uri __result)
@@ -124,6 +133,9 @@ public class CloudXInterfacePatches
         return false;
     }
 
+    /// <summary>
+    /// Properly sets the authentication header to use the correct prefix
+    /// </summary>
     [HarmonyPatch(typeof(CloudXInterface), "set_CurrentSession")]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> Set_CurrentSession_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -151,41 +163,15 @@ public class CloudXInterfacePatches
     //     }
     // }, LazyThreadSafetyMode.None);
     
+    /// <summary>
+    /// Overrides the serializer with our own implementation.
+    /// </summary>
     [HarmonyPatch(typeof(CloudXInterface), "AddBody")]
     [HarmonyPrefix]
     public static bool AddBodyPrefix(HttpRequestMessage message, ref object? entity)
     {
-        // if (entity is LoginCredentials old)
-        // {
-        //     ResoniteLoginCredentials resoniteLogin = new()
-        //     {
-        //         OwnerId = old.OwnerId,
-        //         Username = old.Username,
-        //         Email = old.Email,
-        //         RememberMe = old.RememberMe,
-        //         SecretMachineId = old.SecretMachineId,
-        //         MachineBound = true
-        //     };
-        //     
-        //     if (!string.IsNullOrEmpty(old.SessionToken))
-        //         resoniteLogin.Authentication = new SessionTokenLogin(old.SessionToken);
-        //     else if (!string.IsNullOrEmpty(old.Password))
-        //         resoniteLogin.Authentication = new PasswordLogin(old.Password);
-        //
-        //     resoniteLogin.Preprocess();
-        //     entity = resoniteLogin;
-        // }
-        
         try
         {
-            // message.Content = new StringContent(JsonConvert.SerializeObject(entity))
-            // {
-            //     Headers =
-            //     {
-            //         ContentType = JSON_MEDIA_TYPE
-            //     }
-            // };
-
             Func<MemoryStream> memoryStreamAllocator = CloudXInterface.MemoryStreamAllocator;
             MemoryStream memoryStream = memoryStreamAllocator?.Invoke() ?? new MemoryStream();
             
@@ -218,15 +204,4 @@ public class CloudXInterfacePatches
         
         return false;
     }
-
-    // [HarmonyPatch(typeof(CloudXInterface), "AddBody")]
-    // [HarmonyPostfix]
-    // public static void AddBodyPostfix(HttpRequestMessage message)
-    // {
-    //     string? content = message.Content.ReadAsStringAsync().Result;
-    //     if (content != null)
-    //         UniLog.Log(content);
-    //     else
-    //         UniLog.Log("<no data sent>", true);
-    // }
 }

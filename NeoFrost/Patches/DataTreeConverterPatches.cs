@@ -21,6 +21,9 @@ namespace NeoFrost.Patches;
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public static class DataTreeConverterPatches
 {
+    /// <summary>
+    /// Enables ability to parse brson assets.
+    /// </summary>
     [HarmonyPatch(typeof(DataTreeConverter), "Load", typeof(string), typeof(string))]
     [HarmonyPrefix]
     public static bool LoadPrefix(string file, string ext, ref DataTreeDictionary __result)
@@ -62,6 +65,7 @@ public static class DataTreeConverterPatches
             return false;
         }
         
+        // NOTE: we don't actually use this data other than for logging
         version = binaryReader.ReadInt32();
         compression = binaryReader.Read7BitEncoded();
         

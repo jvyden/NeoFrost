@@ -9,6 +9,9 @@ namespace NeoFrost.Patches;
 [HarmonyPatch(typeof(GatherJob))]
 public static class GatherJobPatches
 {
+    /// <summary>
+    /// Enables support for resdb assets. 
+    /// </summary>
     [HarmonyPatch(typeof(GatherJob), "StartInternal")]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> StartInternalTranspiler(IEnumerable<CodeInstruction> instructions)

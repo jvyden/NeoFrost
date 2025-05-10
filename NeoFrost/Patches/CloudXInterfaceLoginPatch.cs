@@ -20,6 +20,10 @@ namespace NeoFrost.Patches;
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public static class CloudXInterfaceLoginPatch
 {
+    /// <summary>
+    /// Rewrite of the login function to use the new login scheme.
+    /// This is far from trivial to do so with a transpiler as many generics and async calls are here at play.
+    /// </summary>
     private static async Task<CloudResult<UserSession>> LoginAsync(string credential, string password, string sessionToken, string secretMachineId, bool rememberMe, string recoverCode, string totp)
     {
         CloudXInterface @this = Engine.Current.Cloud;
