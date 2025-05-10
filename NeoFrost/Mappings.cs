@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using NeoFrost.Types;
 using NeoFrost.Types.Conversion;
 
 namespace NeoFrost;
@@ -22,7 +23,7 @@ public static class Mappings
 
     private static readonly List<Type> MappableTypes =
     [
-        typeof(IResonite)
+        typeof(ResoniteUserSession)
     ];
 
     private static readonly Dictionary<Type, Type> NeosToResonite = [];
