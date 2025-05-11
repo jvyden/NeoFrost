@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using BaseX;
 using CloudX.Shared;
-using FrooxEngine;
 using HarmonyLib;
 using Microsoft.Win32.SafeHandles;
+using NeoFrost.Patches;
 using NeosModLoader;
 
 namespace NeoFrost;
@@ -95,6 +95,8 @@ public class NeoFrostMod : NeosMod
         #endif
         
         Harmony harmony = new(Name);
+
+        CloudXInterfaceRunRequestPatch.Patch(harmony);
         harmony.PatchAll();
 
         CloudXInterface.UseNewtonsoftJson = false;

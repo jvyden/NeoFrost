@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using CloudX.Shared;
 using NeoFrost.Types;
 using NeoFrost.Types.Conversion;
 
@@ -23,10 +24,12 @@ public static class Mappings
 
     private static readonly List<Type> MappableTypes =
     [
-        typeof(ResoniteUserSession)
+        typeof(ResoniteUserSession),
+        typeof(ResoniteContact),
     ];
 
-    private static readonly Dictionary<Type, Type> NeosToResonite = [];
+    public static readonly Dictionary<Type, Type> NeosToResonite = [];
+    public static IReadOnlyCollection<Type> NeosTypes => NeosToResonite.Keys;
 
     [Pure]
     private static IResonite CreateResoniteObject(Type type)
@@ -64,6 +67,8 @@ public static class Mappings
 
     public static object MapObjectToNeos(object obj)
     {
+        Debug.Assert(obj != null);
+        
         if (obj is IResonite reso)
         {
             Debug.Assert(MappableTypes.Contains(reso.GetType()));
