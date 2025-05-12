@@ -10,6 +10,7 @@ namespace NeoFrost.Types;
 
 [JsonObject(MemberSerialization.OptIn)]
 [Serializable]
+[NeosType(typeof(UserSession))]
 public class ResoniteUserSession : IResonite
 {
     [JsonProperty("userId")]
@@ -59,6 +60,4 @@ public class ResoniteUserSession : IResonite
         this.SessionCreated = obj.SessionCreated;
         this.SessionExpire = obj.SessionExpire;
     }
-
-    public Type NeosType => typeof(UserSession);
 }

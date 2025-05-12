@@ -12,6 +12,7 @@ namespace NeoFrost.Types;
 
 [JsonObject(MemberSerialization.OptIn)]
 [Serializable]
+[NeosType(typeof(Friend))]
 public class ResoniteContact : IResonite
 {
     [JsonProperty(PropertyName = "id")]
@@ -58,6 +59,9 @@ public class ResoniteContact : IResonite
 
     public object ToNeos()
     {
+        Console.WriteLine(ContactUsername);
+        Console.WriteLine(ContactUserId);
+        Console.WriteLine(JsonConvert.SerializeObject(this, Formatting.Indented));
         return new Friend()
         {
             AlternateUsernames = AlternateUsernames,
@@ -68,7 +72,7 @@ public class ResoniteContact : IResonite
             LatestMessageTime = LatestMessageTime,
             OwnerId = OwnerId,
             Profile = Profile,
-            UserStatus = new UserStatus(),
+            UserStatus = null,
         };
     }
 
@@ -86,6 +90,4 @@ public class ResoniteContact : IResonite
         this.OwnerId = obj.OwnerId;
         this.Profile = obj.Profile;
     }
-
-    public Type NeosType => typeof(Friend);
 }

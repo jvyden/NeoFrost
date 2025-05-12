@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Reflection;
 using CloudX.Shared;
 using NeoFrost.Types;
 using NeoFrost.Types.Conversion;
@@ -26,6 +27,7 @@ public static class Mappings
     [
         typeof(ResoniteUserSession),
         typeof(ResoniteContact),
+        typeof(ResoniteMessage)
     ];
 
     public static readonly Dictionary<Type, Type> NeosToResonite = [];
@@ -41,8 +43,10 @@ public static class Mappings
     {
         foreach (Type resoType in MappableTypes)
         {
+            if (resoType.GetCustomAttribute(typeof(NeosTypeAttribute)) is not NeosTypeAttribute attrib)
+                throw new InvalidOperationException("Mappable type must use NeosType attribute");
             IResonite reso = CreateResoniteObject(resoType);
-            NeosToResonite[reso.NeosType] = resoType;
+            NeosToResonite[attrib.NeosType] = resoType;
         }
     }
 

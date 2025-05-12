@@ -35,10 +35,6 @@
         <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Net.Http.dll</HintPath>
       </Reference>
         
-      <Reference Include="System.Text.Json">
-        <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Text.Json.dll</HintPath>
-      </Reference>
-        
       <Reference Include="System.Threading.Tasks.Extensions">
         <HintPath>D:\Games\SteamLibrary\steamapps\common\NeosVR\Neos_Data\Managed\System.Threading.Tasks.Extensions.dll</HintPath>
       </Reference>
@@ -48,6 +44,7 @@
       <PackageReference Include="Brotli.NET" Version="2.1.1" />
       <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
       <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.1" />
+      <PackageReference Include="System.Text.Json" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
