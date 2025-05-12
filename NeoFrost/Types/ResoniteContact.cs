@@ -10,6 +10,8 @@ namespace NeoFrost.Types;
 
 #nullable disable
 
+[JsonObject(MemberSerialization.OptIn)]
+[Serializable]
 public class ResoniteContact : IResonite
 {
     [JsonProperty(PropertyName = "id")]
