@@ -95,8 +95,6 @@ public class NeoFrostMod : NeosMod
         #endif
         
         Harmony harmony = new(Name);
-
-        CloudXInterfaceRunRequestPatch.Patch(harmony);
         harmony.PatchAll();
 
         CloudXInterface.UseNewtonsoftJson = false;
