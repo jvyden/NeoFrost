@@ -60,9 +60,6 @@ public static class Mappings
             resource = kvp.Value;
             break;
         }
-        
-        if (resource.StartsWith("users/") && resource.EndsWith("/friends"))
-            resource = resource.Replace("/friends", "/contacts");
     }
 
     public static object MapObjectToNeos(object obj)

@@ -66,7 +66,7 @@ public class ResoniteContact : IResonite
             LatestMessageTime = LatestMessageTime,
             OwnerId = OwnerId,
             Profile = Profile,
-            UserStatus = new UserStatus()
+            UserStatus = new UserStatus(),
         };
     }
 
