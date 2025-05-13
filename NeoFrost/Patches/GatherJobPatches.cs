@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using FrooxEngine;
 using HarmonyLib;
@@ -35,5 +37,16 @@ public static class GatherJobPatches
         }
 
         return code;
+    }
+
+    private static readonly MethodInfo AssetURL = AccessTools.PropertySetter(typeof(GatherJob), nameof(GatherJob.AssetURL));
+
+    [HarmonyPatch(typeof(GatherJob), "StartInternal")]
+    [HarmonyPrefix]
+    public static bool StartInternalPrefix(GatherJob __instance)
+    {
+        if(__instance.AssetURL.AbsolutePath.EndsWith("neoshader"))
+            AssetURL.Invoke(__instance, [new Uri(__instance.AssetURL, __instance.AssetURL.AbsolutePath.Replace("neoshader", "unityshader"))]);
+        return true;
     }
 }
