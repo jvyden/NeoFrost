@@ -59,10 +59,7 @@ public class ResoniteContact : IResonite
 
     public object ToNeos()
     {
-        Console.WriteLine(ContactUsername);
-        Console.WriteLine(ContactUserId);
-        Console.WriteLine(JsonConvert.SerializeObject(this, Formatting.Indented));
-        return new Friend()
+        return new Friend
         {
             AlternateUsernames = AlternateUsernames,
             FriendStatus = ContactStatus,
